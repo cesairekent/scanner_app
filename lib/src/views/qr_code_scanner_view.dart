@@ -2,14 +2,15 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:scanner_app/src/view_models/scan_view_model.dart';
+import 'package:scanner_app/src/views/home_view.dart';
 
-
-class QRScannerView extends StatefulWidget
-{
+class QRScannerView extends StatefulWidget {
   @override
-  _QRScannerViewState createState() => new _QRScannerViewState();
+  _QRScannerViewState createState() => _QRScannerViewState();
 }
 
 class _QRScannerViewState extends State<QRScannerView> {
@@ -85,10 +86,18 @@ class _QRScannerViewState extends State<QRScannerView> {
   doAfterScan(BuildContext context) async {
     controller?.pauseCamera();
     HapticFeedback.mediumImpact();
-
     var scanData = result!.code.toString();
+    context.read<ScanVM>().updateScanText(scanData);
 
-
+    if (result != null) {
+      result == null;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeView(),
+        ),
+      );
+    }
   }
 
   qrCodeInvalid(BuildContext context) {
