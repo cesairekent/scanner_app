@@ -1,8 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scanner_app/src/view_models/scan_view_model.dart';
 import 'package:scanner_app/src/views/home_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+//import 'firebase_options.dart';
 
 // void main() {
 //   runApp(const MyApp());
@@ -10,7 +12,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp(
+    //options: DefaultFirebaseOptions.currentPlatform,
+  );
   final prefs = await SharedPreferences.getInstance();
   String lang = prefs.getString('language') ?? 'fr';
 
